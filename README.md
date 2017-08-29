@@ -6,14 +6,16 @@ supporting libav code for reading audio data and passing it into libKeyFinder.
 
 #### Usage
 
-```python
-import keyfinder
+```pycon
+>>> import keyfinder
+>>> key = keyfinder.key('my-audio.mp3')
 
-key = keyfinder.key('my-audio.mp3')
-
-key            # A
-key.camelot()  # 11B
-key.open_key() # 4d
+>>> key
+A
+>>> key.camelot()
+11B
+>>> key.open_key()
+4d
 ```
 
 #### Build requirements
