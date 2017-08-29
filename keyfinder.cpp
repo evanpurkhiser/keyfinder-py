@@ -1,9 +1,12 @@
-#include <iostream>
-#include <mutex>
-#include <memory>
+#include "Python.h"
+
 #include <getopt.h>
-#include <keyfinder/keyfinder.h>
+#include <iostream>
 #include <keyfinder/constants.h>
+#include <keyfinder/keyfinder.h>
+#include <map>
+#include <memory>
+#include <mutex>
 
 extern "C"
 {
@@ -13,8 +16,6 @@ extern "C"
 #include <libavformat/avformat.h>
 #include <libavresample/avresample.h>
 }
-
-#include "key_notations.h"
 
 const int BAD_PACKET_THRESHOLD = 100;
 
@@ -245,61 +246,30 @@ void fill_audio_data(const char* file_path, KeyFinder::AudioData &audio)
     }
 }
 
-int main(int argc, char** argv)
+typedef std::map<KeyFinder::key_t, std::string> key_map;
+
+key_map standard_notation =
 {
-    auto display_usage = [argv](std::ostream &stream)
-    {
-        stream << "Usage: " << argv[0] << " [-h] [-n key-notation] filename"
-               << std::endl;
-    };
+    {KeyFinder::A_MAJOR,       "A" }, {KeyFinder::A_MINOR,       "Am" },
+    {KeyFinder::B_FLAT_MAJOR,  "Bb"}, {KeyFinder::B_FLAT_MINOR,  "Bbm"},
+    {KeyFinder::B_MAJOR,       "B" }, {KeyFinder::B_MINOR,       "Bm" },
+    {KeyFinder::C_MAJOR,       "C" }, {KeyFinder::C_MINOR,       "Cm" },
+    {KeyFinder::D_FLAT_MAJOR,  "Db"}, {KeyFinder::D_FLAT_MINOR,  "Dbm"},
+    {KeyFinder::D_MAJOR,       "D" }, {KeyFinder::D_MINOR,       "Dm" },
+    {KeyFinder::E_FLAT_MAJOR,  "Eb"}, {KeyFinder::E_FLAT_MINOR,  "Ebm"},
+    {KeyFinder::E_MAJOR,       "E" }, {KeyFinder::E_MINOR,       "Em" },
+    {KeyFinder::F_MAJOR,       "F" }, {KeyFinder::F_MINOR,       "Fm" },
+    {KeyFinder::G_FLAT_MAJOR,  "Gb"}, {KeyFinder::G_FLAT_MINOR,  "Gbm"},
+    {KeyFinder::G_MAJOR,       "G" }, {KeyFinder::G_MINOR,       "Gm" },
+    {KeyFinder::A_FLAT_MAJOR,  "Ab"}, {KeyFinder::A_FLAT_MINOR,  "Abm"},
+};
 
-    // Default to the standard key notation
-    auto selected_notation = KeyNotation::standard;
+static PyObject* keyfinder_key(PyObject* self, PyObject* args)
+{
+    const char* file_path;
 
-    struct option options[] =
-    {
-        {"notation", required_argument, 0, 'n'},
-        {"help",     no_argument,       0, 'h'},
-        {0, 0, 0, 0}
-    };
-
-    opterr = 0;
-
-    char c;
-    while ((c = getopt_long(argc, argv, "n:h", options, nullptr)) != -1)
-    {
-        switch (c)
-        {
-        case 'h':
-            display_usage(std::cout);
-            return 0;
-
-        case '?':
-            display_usage(std::cerr);
-            return 0;
-
-        case 'n':
-            if (KeyNotation::mappings.find(optarg) == KeyNotation::mappings.end())
-            {
-                std::cerr << "Invalid key notation" << std::endl;
-                return 1;
-            }
-
-            selected_notation = KeyNotation::mappings[optarg];
-            break;
-        }
-    }
-
-    // There should be at least one argument left for the filename. We can
-    // check for this by seeing if the opt parser's last index is larger than
-    // the arg count.
-    if (optind >= argc)
-    {
-        display_usage(std::cerr);
-        return 1;
-    }
-
-    char* file_path = argv[optind];
+    if (!PyArg_ParseTuple(args, "s", &file_path))
+        return nullptr;
 
     KeyFinder::KeyFinder key_finder;
     KeyFinder::AudioData audio_data;
@@ -315,15 +285,33 @@ int main(int argc, char** argv)
     }
     catch (std::exception &e)
     {
-        std::cerr << e.what() << std::endl;
-        return 1;
+        PyErr_SetString(PyExc_Exception, e.what());
+        return nullptr;
     }
 
     // Only return a key when we don't have silence - rule 12: Be quiet!
     if (key != KeyFinder::SILENCE)
     {
-        std::cout << selected_notation[key] << std::endl;
+        return Py_BuildValue("s", standard_notation[key].c_str());
     }
 
-    return 0;
+    return Py_None;
+}
+
+static PyMethodDef keyfinder_methods[] = {
+    {"key",  keyfinder_key, METH_VARARGS, "Determine the key of an audio file"},
+    {nullptr, nullptr, 0, nullptr},
+};
+
+static struct PyModuleDef keyfinder_module = {
+    PyModuleDef_HEAD_INIT,
+    "_internal",
+    nullptr,
+    -1,
+    keyfinder_methods,
+};
+
+PyMODINIT_FUNC PyInit__internal()
+{
+    return PyModule_Create(&keyfinder_module);
 }
