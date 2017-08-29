@@ -3,7 +3,7 @@ from keyfinder import notations
 
 class Key(object):
     """
-    Key represents a musical key. This object provices mappings of the key to
+    Key represents a musical key. This object provides mappings of the key to
     various different key notations.
     """
     def __init__(self, key):
