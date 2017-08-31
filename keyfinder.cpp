@@ -280,8 +280,12 @@ static PyObject* keyfinder_key(PyObject* self, PyObject* args)
 
     try
     {
+        Py_BEGIN_ALLOW_THREADS
+
         fill_audio_data(file_path, audio_data);
         key = key_finder.keyOfAudio(audio_data);
+
+        Py_END_ALLOW_THREADS
     }
     catch (std::exception &e)
     {
