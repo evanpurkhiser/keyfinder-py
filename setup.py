@@ -3,6 +3,8 @@ from distutils.core import setup, Extension
 keyfinder_module = Extension(
     'keyfinder._internal',
     sources=['keyfinder.cpp'],
+    include_dirs=['/usr/local/include'],
+    library_dirs=['/usr/local/lib'],
     libraries=['keyfinder', 'avcodec', 'avformat', 'avutil', 'avresample'],
     extra_compile_args=['-std=c++11'],
 )
