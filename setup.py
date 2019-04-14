@@ -19,11 +19,13 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     ext_modules=[keyfinder_module],
+    python_requires='>=3',
     packages=['keyfinder'],
     author='Evan Purkhiser',
     author_email='evanpurkhiser@gmail.com',
     url="https://github.com/evanpurkhiser/keyfinder-py",
     classifiers=[
+        'Programming Language :: Python :: 3',
         'Topic :: Multimedia :: Sound/Audio',
         'Topic :: Multimedia :: Sound/Audio :: Analysis',
     ]
