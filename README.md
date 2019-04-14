@@ -1,4 +1,4 @@
-## Keyfinder Python bindings
+## Keyfinder Python 3.x bindings
 
 This package implements basic bindings for
 [libKeyFinder](https://github.com/ibsh/libKeyFinder). It includes the
@@ -22,9 +22,9 @@ A
 
 You must have the following dependencies installed to build this module
 
- - [libKeyFinder](https://github.com/ibsh/libKeyFinder#installation) which has
-   it's own set of dependencies. On mac you can use homebrew to tap
-   [`EvanPurkhiser/homebrew-personal`](https://github.com/EvanPurkhiser/homebrew-personal)
-   and then `brew install libkeyfinder`.
+- [libKeyFinder](https://github.com/ibsh/libKeyFinder#installation) which has
+  it's own set of dependencies. On mac you can use homebrew to tap
+  [`EvanPurkhiser/homebrew-personal`](https://github.com/EvanPurkhiser/homebrew-personal)
+  and then `brew install libkeyfinder`.
 
- - ffmpeg. On mac use `brew install ffmpeg`
+- ffmpeg. On mac use `brew install ffmpeg`
