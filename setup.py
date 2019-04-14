@@ -9,12 +9,22 @@ keyfinder_module = Extension(
     extra_compile_args=['-std=c++11'],
 )
 
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
 setup(
     name='keyfinder',
     version='1.0',
     description='Determine the key of an audio file',
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     ext_modules=[keyfinder_module],
     packages=['keyfinder'],
     author='Evan Purkhiser',
-    author_email='evanpurkhiser@gmail.com'
+    author_email='evanpurkhiser@gmail.com',
+    url="https://github.com/evanpurkhiser/keyfinder-py",
+    classifiers=[
+        'Topic :: Multimedia :: Sound/Audio',
+        'Topic :: Multimedia :: Sound/Audio :: Analysis',
+    ]
 )
