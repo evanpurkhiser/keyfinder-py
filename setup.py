@@ -5,7 +5,7 @@ keyfinder_module = Extension(
     sources=['keyfinder.cpp'],
     include_dirs=['/usr/local/include'],
     library_dirs=['/usr/local/lib'],
-    libraries=['keyfinder', 'avcodec', 'avformat', 'avutil', 'avresample'],
+    libraries=['keyfinder', 'avcodec', 'avformat', 'avutil', 'swresample'],
     extra_compile_args=['-std=c++11'],
 )
 
