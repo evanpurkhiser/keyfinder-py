@@ -1,0 +1,31 @@
+name: build
+on:
+  push:
+  schedule:
+  - cron: '0 0 * * *'
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        pip3 install setuptools
+        sudo apt-get install --yes \
+          libswresample-dev libavformat-dev libavutil-dev libavcodec-dev \
+          qt5-default qtbase5-dev \
+          libfftw3-dev
+
+    - name: Build libkeyfinder
+      run: |
+        git clone https://github.com/ibsh/libKeyFinder.git libkeyfinder
+        cd libkeyfinder
+        qmake
+        sudo make install
+
+    - name: Build keyfiner-py
+      run: sudo python3 setup.py build_ext install

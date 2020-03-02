@@ -4,7 +4,7 @@ This package implements basic bindings for
 [libKeyFinder](https://github.com/ibsh/libKeyFinder). It includes the
 supporting libav code for reading audio data and passing it into libKeyFinder.
 
-[![Build Status](https://travis-ci.com/EvanPurkhiser/keyfinder-py.svg?branch=master)](https://travis-ci.com/EvanPurkhiser/keyfinder-py)
+[![Build Status](https://github.com/evanpurkhiser/keyfinder-py/workflows/build/badge.svg)](https://github.com/EvanPurkhiser/keyfinder-py/actions?query=workflow%3Abuild)
 
 #### Usage
 
