@@ -15,6 +15,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip3 install setuptools
+        sudo apt-get update
         sudo apt-get install --yes \
           libswresample-dev libavformat-dev libavutil-dev libavcodec-dev \
           qt5-default qtbase5-dev \
