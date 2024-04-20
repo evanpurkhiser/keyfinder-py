@@ -14,19 +14,17 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip3 install setuptools
           sudo apt-get update
           sudo apt-get install --yes \
-            libswresample-dev libavformat-dev libavutil-dev libavcodec-dev \
-            qtbase5-dev qt5-qmake qtbase5-dev-tools \
-            libfftw3-dev
+            libswresample-dev libavformat-dev libavutil-dev libavcodec-dev fftw3-dev
 
       - name: Build libkeyfinder
         run: |
-          git clone https://github.com/ibsh/libKeyFinder.git libkeyfinder
+          git clone https://github.com/mixxxdj/libkeyfinder libkeyfinder
           cd libkeyfinder
-          qmake
-          sudo make install
+          cmake -S . -B build
+          cmake --build build
+          sudo cmake --install build
 
       - name: Build keyfiner-py
         run: sudo python3 setup.py build_ext install

@@ -1,7 +1,7 @@
 ## Keyfinder Python 3.x bindings
 
 This package implements basic bindings for
-[libKeyFinder](https://github.com/ibsh/libKeyFinder). It includes the
+[libKeyFinder](https://github.com/mixxxdj/libkeyfinder). It includes the
 supporting libav code for reading audio data and passing it into libKeyFinder.
 
 [![Build Status](https://github.com/evanpurkhiser/keyfinder-py/workflows/build/badge.svg)](https://github.com/evanpurkhiser/keyfinder-py/actions?query=workflow%3Abuild)
@@ -24,7 +24,7 @@ A
 
 You must have the following dependencies installed to build this module
 
-- [libKeyFinder](https://github.com/ibsh/libKeyFinder#installation) which has
+- [libKeyFinder](https://github.com/mixxxdj/libkeyfinder#installation) which has
   it's own set of dependencies. On mac you can use homebrew to tap
   [`evanpurkhiser/homebrew-personal`](https://github.com/EvanPurkhiser/homebrew-personal)
   and then `brew install libkeyfinder`.
