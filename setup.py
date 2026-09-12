@@ -22,7 +22,7 @@ setup(
     python_requires='>=3',
     packages=['keyfinder'],
     author='Evan Purkhiser',
-    author_email='evanpurkhiser@gmail.com',
+    author_email='keyfinder.py@evanpurkhiser.com',
     url="https://github.com/evanpurkhiser/keyfinder-py",
     classifiers=[
         'Programming Language :: Python :: 3',
